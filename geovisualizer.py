@@ -9,9 +9,10 @@ import ee
 
 # Set up the title of the app
 st.title('Geographical Data Visualizer')
+brazil_shapefile = geemap.shp_to_ee('brazil/Brazil.shp')
 
 
-Map = geemap.foliumap.Map(center=[40, -100], zoom=4)
+Map = geemap.Map()
 
 landcover = ee.Image('MODIS/006/MCD12Q1/2004_01_01').select('LC_Type1')
 
@@ -38,7 +39,7 @@ igbpLandCoverVis = {
         '1c0dff',
     ],
 }
-brazil_lc = landcover.clip('brazil/Brazil.shp')
+brazil_lc = landcover.clip(brazil_shapefile)
 Map.setCenter(-55, -10, 4)
 Map.addLayer(brazil_lc, igbpLandCoverVis, 'MODIS Land Cover')
 
