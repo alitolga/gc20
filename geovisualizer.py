@@ -6,6 +6,8 @@ from shapely.geometry import Point
 import geemap
 import ee
 
+ee.Authenticate()
+ee.initialize(project='atd-gc')
 
 # Set up the title of the app
 st.title('Geographical Data Visualizer')
