@@ -3,10 +3,49 @@ import geopandas as gpd
 import pydeck as pdk
 import pandas as pd
 from shapely.geometry import Point
+import geemap
+import ee
 
 
 # Set up the title of the app
 st.title('Geographical Data Visualizer')
+
+
+Map = geemap.foliumap.Map(center=[40, -100], zoom=4)
+
+landcover = ee.Image('MODIS/006/MCD12Q1/2004_01_01').select('LC_Type1')
+
+igbpLandCoverVis = {
+    'min': 1.0,
+    'max': 17.0,
+    'palette': [
+        '05450a',
+        '086a10',
+        '54a708',
+        '78d203',
+        '009900',
+        'c6b044',
+        'dcd159',
+        'dade48',
+        'fbff13',
+        'b6ff05',
+        '27ff87',
+        'c24f44',
+        'a5a5a5',
+        'ff6d4c',
+        '69fff8',
+        'f9ffa4',
+        '1c0dff',
+    ],
+}
+brazil_lc = landcover.clip('brazil/Brazil.shp')
+Map.setCenter(-55, -10, 4)
+Map.addLayer(brazil_lc, igbpLandCoverVis, 'MODIS Land Cover')
+
+Map.to_streamlit(height=700)
+
+
+
 
 # Create a file uploader for the user to upload GeoJSON or CSV files
 uploaded_file = st.file_uploader('Upload a geographical data file (GeoJSON or CSV)', type=['geojson', 'csv'])
