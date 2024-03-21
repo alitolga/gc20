@@ -7,7 +7,7 @@ import geemap
 import ee
 
 ee.Authenticate()
-ee.Initialize(project='atd-gc')
+# ee.Initialize(project='atd-gc')
 
 # Set up the title of the app
 st.title('Geographical Data Visualizer')
